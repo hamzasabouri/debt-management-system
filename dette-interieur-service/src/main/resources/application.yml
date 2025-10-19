@@ -1,0 +1,19 @@
+
+spring:
+  config:
+    import: "optional:configserver:http://configadmin:configpassword@localhost:8888"
+  application:
+    name: dette-interieur-service
+  cloud:
+    config:
+      enabled: true
+      fail-fast: false   # temporairement mettre false pour démarrer même si le serveur est down
+      retry:
+        initial-interval: 1000
+        max-attempts: 6
+        max-interval: 2000
+        multiplier: 1.1
+
+
+server:
+  port: 8086

@@ -1,0 +1,138 @@
+server:
+  port: 8086
+
+spring:
+  application:
+    name: dette-interieur-service
+  
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/dette_interieur_db
+    username: postgres
+    password: 22122002
+    hikari:
+      pool-name: DetteInterieurHikariPool
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      connection-timeout: 20000
+  
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          batch_size: 25
+          order_inserts: true
+          order_updates: true
+  
+  cloud:
+    config:
+      enabled: true
+
+  security:
+    jwt:
+      secret: J5a6sOV25m4IMmhDfq+GUH095toHgMvx7umH0fEiyuCkHKxQS0nX1gN5/e9JaUJPOwx+Y0UGoWP+uPKtpIG6GA==
+      expiration: 86400000 # 24 hours in milliseconds
+
+# Eureka Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 30
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Management and Monitoring
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,configprops
+  endpoint:
+    health:
+      show-details: always
+
+# API Documentation
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    operationsSorter: method
+
+# Logging
+logging:
+  level:
+    com.microservices.detteinterieur: DEBUG
+    org.springframework.security: DEBUG
+    org.springframework.cloud: INFO
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Integration Configuration
+integration:
+  http:
+    connection-timeout: 30000
+    read-timeout: 60000
+    max-connections: 50
+    max-connections-per-route: 20
+
+  bam:
+    base-url: ${BAM_BASE_URL:http://localhost:9001/bam-service}
+    api-key: ${BAM_API_KEY:bam-dev-api-key-2024}
+    timeout: 30000
+    retry-attempts: 3
+    enabled: ${BAM_INTEGRATION_ENABLED:true}
+
+  comptabilite:
+    base-url: ${COMPTABILITE_BASE_URL:http://localhost:9002/comptabilite-service}
+    api-key: ${COMPTABILITE_API_KEY:comptabilite-dev-api-key-2024}
+    timeout: 30000
+    retry-attempts: 3
+    enabled: ${COMPTABILITE_INTEGRATION_ENABLED:true}
+
+  dtfe:
+    base-url: ${DTFE_BASE_URL:http://localhost:9003/dtfe-service}
+    api-key: ${DTFE_API_KEY:dtfe-dev-api-key-2024}
+    timeout: 45000
+    retry-attempts: 3
+    enabled: ${DTFE_INTEGRATION_ENABLED:true}
+
+# JWT Configuration
+jwt:
+  secret: ${JWT_SECRET:J5a6sOV25m4IMmhDfq+GUH095toHgMvx7umH0fEiyuCkHKxQS0nX1gN5/e9JaUJPOwx+Y0UGoWP+uPKtpIG6GA==}
+  expiration: ${JWT_EXPIRATION:86400000} # 24 hours in milliseconds
+# Application Configuration
+dette-interieur:
+  roles:
+    admin: ADMIN
+    dette-interieur: DETTE_INTERIEUR
+
+  pdf:
+    output-directory: ${PDF_OUTPUT_DIR:./dette-interieur-pdfs}
+    font-path: ${PDF_FONT_PATH:./fonts/}
+
+  business:
+    default-currency: ${DEFAULT_CURRENCY:MAD}
+    commission:
+      maroclear-rate: ${MAROCLEAR_COMMISSION_RATE:0.002}  # 0.2%
+      bam-rate: ${BAM_COMMISSION_RATE:0.001}              # 0.1%
+    interest:
+      collectivite-rate: ${COLLECTIVITE_INTEREST_RATE:0.0275} # 2.75%
+      depot-rate: ${DEPOT_INTEREST_RATE:0.0225}               # 2.25%
+
+    validation:
+      auto-validate-amounts: ${AUTO_VALIDATE_AMOUNTS:true}
+      max-operation-amount: ${MAX_OPERATION_AMOUNT:1000000000}
+      require-supporting-docs: ${REQUIRE_SUPPORTING_DOCS:true}

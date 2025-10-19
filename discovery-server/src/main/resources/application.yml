@@ -1,0 +1,26 @@
+spring:
+  config:
+    import: "optional:configserver:http://configadmin:configpassword@localhost:8888"
+  application:
+    name: discovery-server
+  security:
+    basic:
+      enabled: false
+  autoconfigure:
+    exclude: 
+      - org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration
+      - org.springframework.boot.actuate.autoconfigure.security.servlet.ManagementWebSecurityAutoConfiguration
+
+server:
+  port: 8761
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    serviceUrl:
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    waitTimeInMsWhenSyncEmpty: 0

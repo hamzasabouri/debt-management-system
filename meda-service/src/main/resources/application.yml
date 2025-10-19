@@ -1,0 +1,27 @@
+spring:
+  config:
+    import: "optional:configserver:http://configadmin:configpassword@localhost:8888"
+  application:
+    name: meda-service
+  cloud:
+    config:
+      enabled: true
+      fail-fast: false   # temporairement mettre false pour démarrer même si le serveur est down
+      retry:
+        initial-interval: 1000
+        max-attempts: 6
+        max-interval: 2000
+        multiplier: 1.1
+  # Enable debug logging for security
+  security:
+    debug: true
+
+server:
+  port: 8085
+
+# Enable debug logging
+logging:
+  level:
+    org.springframework.security: DEBUG
+    com.microservices.meda: DEBUG
+    org.springframework.web: DEBUG

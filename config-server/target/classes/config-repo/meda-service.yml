@@ -1,0 +1,128 @@
+# MEDA Service Configuration
+server:
+  port: 8085
+
+spring:
+  application:
+    name: meda-service
+  
+  # Database Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/meda_db2
+    username: postgres
+    password: 22122002
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 20
+      minimum-idle: 5
+      idle-timeout: 300000
+      pool-name: MEDAHikariPool
+      
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          time_zone: UTC
+        temp:
+          use_jdbc_metadata_defaults: false
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    
+  # Security Configuration
+  security:
+    jwt:
+      secret: J5a6sOV25m4IMmhDfq+GUH095toHgMvx7umH0fEiyuCkHKxQS0nX1gN5/e9JaUJPOwx+Y0UGoWP+uPKtpIG6GA==
+      expiration: 86400000 # 24 hours
+      
+  # Validation
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: false
+    serialization:
+      write-dates-as-timestamps: false
+
+# Eureka Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 30
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# OpenAPI/Swagger Configuration
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  packages-to-scan: com.microservices.meda.controller
+  paths-to-match: /api/**
+
+# Logging Configuration
+logging:
+  level:
+    com.microservices.meda: INFO
+    org.springframework.security: DEBUG
+    org.hibernate.SQL: DEBUG
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} - %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n"
+  file:
+    name: logs/meda-service.log
+
+# Management endpoints
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
+  info:
+    env:
+      enabled: true
+
+# Application Information
+info:
+  app:
+    name: MEDA Program and Working Capital Service
+    description: Microservice for managing MEDA program projects, advances, and supporting documents
+    version: 1.0.0
+
+# Custom Application Properties
+meda:
+  security:
+    enabled: true
+    cors:
+      allowed-origins: http://localhost:3000,http://localhost:5173
+      allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+      allowed-headers: Authorization,Content-Type,X-Requested-With,Accept,Origin,Access-Control-Request-Method,Access-Control-Request-Headers
+      allow-credentials: true
+      max-age: 3600
+  integration:
+    bam:
+      enabled: true
+      url: http://localhost:8090
+      timeout: 30000
+    comptabilite:
+      enabled: true
+      url: http://localhost:8091
+      timeout: 30000
+  business:
+    validation:
+      strict-currency-validation: true
+      max-amount-per-document: 1000000
+      max-documents-per-project: 1000

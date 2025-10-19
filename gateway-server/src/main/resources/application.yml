@@ -1,0 +1,21 @@
+spring:
+  config:
+    import: "optional:configserver:http://configadmin:configpassword@localhost:8888"
+  application:
+    name: gateway-server
+  cloud:
+    config:
+      enabled: true
+      fail-fast: false
+      retry:
+        initial-interval: 1000
+        max-attempts: 6
+        max-interval: 2000
+        multiplier: 1.1
+  security:
+    user:
+      name: eureka
+      password: eureka123
+
+server:
+  port: 8080

@@ -1,0 +1,3 @@
+This is a placeholder for the logo file.
+In a real implementation, you would place your logo.png file here.
+The PDF generation service is configured to look for static/images/logo.png by default.

@@ -1,0 +1,81 @@
+/* Dette Interieur Dashboard Styles */
+
+.dette-interieur-dashboard {
+  width: 100%;
+  min-height: 100vh;
+  background-color: #f5f7fa;
+}
+
+.dette-interieur-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dette-interieur-stats-container {
+  padding: 2rem;
+}
+
+.dette-interieur-stat-card {
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.dette-interieur-stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+}
+
+.dette-interieur-table-container {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+.dette-interieur-table-header {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.dette-interieur-tab-panel {
+  padding: 2rem 0;
+}
+
+.dette-interieur-notification-chip {
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.dette-interieur-status-en-cours {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.dette-interieur-status-cloturee {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.dette-interieur-status-annulee {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+
+.dette-interieur-status-payee {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.dette-interieur-status-en-attente {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.dette-interieur-status-traitée {
+  background-color: #d1ecf1;
+  color: #0c5460;
+}

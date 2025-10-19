@@ -1,0 +1,51 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: login-service
+
+# JWT Configuration
+jwt:
+  secret: J5a6sOV25m4IMmhDfq+GUH095toHgMvx7umH0fEiyuCkHKxQS0nX1gN5/e9JaUJPOwx+Y0UGoWP+uPKtpIG6GA==
+  expiration: 86400000 # 24 hours in milliseconds
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    fetch-registry: true
+    register-with-eureka: true
+    registry-fetch-interval-seconds: 30
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 90
+
+# Feign Configuration
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+
+logging:
+  level:
+    com.microservices.loginservice: DEBUG
+    org.springframework.security: DEBUG
+    feign: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, metrics
+  endpoint:
+    health:
+      show-details: always
+user-service:
+  ribbon:
+    listOfServers: http://localhost:8082  # Direct URL to user service
+    NIWSServerListClassName: com.netflix.loadbalancer.ConfigurationBasedServerList

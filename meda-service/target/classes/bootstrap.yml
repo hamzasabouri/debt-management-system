@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: meda-service
+  cloud:
+    config:
+      uri: http://configadmin:configpassword@localhost:8888
+      fail-fast: true
+      retry:
+        initial-interval: 1000
+        max-attempts: 6
+        max-interval: 2000
+        multiplier: 1.1
+
+# Adding default values to prevent placeholder errors if config server is down
+meda:
+  integration:
+    bam:
+      enabled: false
+      url: http://localhost:8090
+    comptabilite:
+      enabled: false
+      url: http://localhost:8091
